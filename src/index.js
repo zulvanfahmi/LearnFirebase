@@ -2,10 +2,11 @@ import { initializeApp } from 'firebase/app'
 import { 
     getFirestore,
     collection,
-    getDocs,
+    // getDocs,
     addDoc,
     deleteDoc,
-    doc
+    doc,
+    onSnapshot,
  } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -27,10 +28,28 @@ const db = getFirestore()
 const colRef = collection(db, 'books')
 
 // get collection data
-getDocs(colRef)
-.then((snapshot) => {
+// getDocs(colRef)
+// .then((snapshot) => {
 
-    // console.log(snapshot.docs)
+//     // console.log(snapshot.docs)
+
+//     let books = []
+//     snapshot.docs.forEach((doc) => {
+//         books.push({
+//             ...doc.data(), id: doc.id
+//         })
+//     })
+
+//     console.log(books)
+
+// })
+// .catch(err => {
+//     console.log(err.message)
+// })
+
+
+// get collection data realtime
+onSnapshot(colRef, (snapshot) => {
 
     let books = []
     snapshot.docs.forEach((doc) => {
@@ -41,9 +60,6 @@ getDocs(colRef)
 
     console.log(books)
 
-})
-.catch(err => {
-    console.log(err.message)
 })
 
 
