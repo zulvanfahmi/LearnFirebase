@@ -8,7 +8,8 @@ import {
     onSnapshot,
     query,
     orderBy,
-    serverTimestamp
+    serverTimestamp,
+    getDoc
  } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -75,4 +76,18 @@ deleteBookForm.addEventListener('submit', (e) => {
         deleteBookForm.reset()
     })
 
+})
+
+// get single document
+const docRef = doc(db, 'books', '8l3jVPRBaoTWrjfJCEtZ')
+
+// === not realtime update
+// getDoc(docRef)
+// .then((doc) => {
+//     console.log(doc.data(), doc.id)
+// })
+
+// === realtime update
+onSnapshot(docRef, (doc) => {
+    console.log(doc.data(), doc.id)
 })
