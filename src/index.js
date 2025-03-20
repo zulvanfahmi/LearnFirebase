@@ -13,8 +13,10 @@ import {
     updateDoc
  } from 'firebase/firestore'
  import { 
-     createUserWithEmailAndPassword,
-    getAuth 
+    createUserWithEmailAndPassword,
+    getAuth,
+    signOut,
+    signInWithEmailAndPassword
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -126,4 +128,34 @@ signupform.addEventListener('submit', (e) => {
 
 })
 
+// log out
+const logoutButton = document.querySelector('.logout')
+logoutButton.addEventListener('click', (e) => {
 
+    signOut(auth)
+    .then(() => {
+        console.log('the user signed out')
+    })
+    .catch((err) => {
+        console.log(err.message)
+    })
+
+})
+
+// log in
+const loginForm = document.querySelector('.login')
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const email = loginForm.emailLogin.value
+    const password = loginForm.passwordLogin.value
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+        console.log('user logged in:', cred.user)
+    })
+    .catch((err) => {
+        console.log(err.message)
+    })
+
+})
