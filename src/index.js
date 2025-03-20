@@ -9,7 +9,8 @@ import {
     query,
     orderBy,
     serverTimestamp,
-    getDoc
+    getDoc,
+    updateDoc
  } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -81,13 +82,22 @@ deleteBookForm.addEventListener('submit', (e) => {
 // get single document
 const docRef = doc(db, 'books', '8l3jVPRBaoTWrjfJCEtZ')
 
-// === not realtime update
-// getDoc(docRef)
-// .then((doc) => {
-//     console.log(doc.data(), doc.id)
-// })
-
 // === realtime update
 onSnapshot(docRef, (doc) => {
     console.log(doc.data(), doc.id)
+})
+
+// updating a document
+const updateForm = document.querySelector('.update')
+updateForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const docRef = doc(db, 'books', updateForm.id.value)
+    updateDoc(docRef, {
+        title: 'updated title',
+    })
+    .then(() => {
+        updateForm.reset()
+    })
+
 })
